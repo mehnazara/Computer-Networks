@@ -1,0 +1,228 @@
+Static IP Address
+Architecture Configuration
+Router>enable
+Router#config t
+Router(config)#hostname architecture
+architecture(config)#int g0/0
+architecture(config-if)#ip address 10.128.6.3 255.255.255.128
+architecture(config-if)#no shutdown
+
+Law Configuration
+Router>enable
+Router#config t
+Router(config)#hostname Law
+Law(config)#int g0/0
+Law(config-if)#ip address 10.128.6.131 255.255.255.192
+Law(config-if)#no shutdown
+Law(config)#int s0/0/1
+Law(config-if)#clock rate 64000
+Law(config-if)#no shutdown
+
+Wan1:
+Static IP Address
+architecture(config)#int s0/0/1
+architecture(config-if)#ip address 10.128.7.25 255.255.255.252
+architecture(config-if)#no shutdown
+
+Law(config)#int s0/0/1
+Law(config-if)#ip address 10.128.7.26 255.255.255.252
+Law(config-if)#no shutdown
+
+Wan2:
+Static IP Address
+architecture(config)#int s0/1/0
+architecture(config-if)#ip address 10.128.7.21 255.255.255.252
+architecture(config-if)#no shutdown
+
+Router>enable
+Router#config t
+economics(config)#int s0/1/0
+economics(config-if)#ip address 10.128.7.22 255.255.255.252
+economics(config-if)#clock rate 64000
+economics(config-if)#no shutdown
+
+Wan3:
+Static IP Address
+Law(config)#int s0/1/1
+Law(config-if)#ip address 10.128.7.17 255.255.255.252
+Law(config-if)#no shutdown
+
+economics(config)#int s0/1/1
+economics(config-if)#ip address 10.128.7.18 255.255.255.252
+economics(config-if)#clock rate 64000
+economics(config-if)#no shutdown
+
+Wan4:
+Static IP Address
+economics>enable
+economics#config t
+economics(config)#int s0/0/0
+economics(config-if)#ip address 10.128.7.13 255.255.255.252
+economics(config-if)#no shutdown
+
+Router>enable
+Router#config t
+Router(config)#hostname eng&hum
+eng&hum(config)#int s0/0/0
+eng&hum(config-if)#ip address 10.128.7.14 255.255.255.252
+eng&hum(config-if)#clock rate 64000
+eng&hum(config-if)#no shutdown
+
+Wan5:
+Law(config)#int s0/0/0
+Law(config-if)#ip address 10.128.7.9 255.255.255.252
+Law(config-if)#clock rate 64000
+Law(config-if)#no shutdown
+
+eng&hum(config)#int s0/0/1
+eng&hum(config-if)#ip address 10.128.7.10 255.255.255.252
+eng&hum(config-if)#no shutdown
+
+Wan6:
+Static IP Address
+eng&hum>enable
+eng&hum#config t
+eng&hum(config)#int s0/1/0
+eng&hum(config-if)#ip address 10.128.7.5 255.255.255.252
+eng&hum(config-if)#clock rate 64000
+eng&hum(config-if)#no shutdown
+
+Router>enable
+Router#config t
+Router(config)#hostname bsrm
+bsrm(config)#int s0/1/1
+bsrm(config-if)#ip address 10.128.7.6 255.255.255.252
+bsrm(config-if)#no shutdown
+
+Wan7:
+Static IP Address
+bsrm(config)#int s0/0/0
+bsrm(config-if)#ip address 10.128.7.1 255.255.255.252
+bsrm(config-if)#clock rate 64000
+bsrm(config-if)#no shutdown
+
+Router>enable
+Router#config t
+Router(config)#hostname cse
+cse(config)#int s0/0/0
+cse(config-if)#ip address 10.128.7.2 255.255.255.252
+cse(config-if)#no shutdown
+
+Remaining default gateways:
+bsrm(config)#int g0/0
+bsrm(config-if)#ip address 10.128.5.2 255.255.255.0
+bsrm(config-if)#no shutdown
+
+cse(config)#int g0/0
+cse(config-if)#ip address 10.128.0.1 255.255.252.0
+cse(config-if)#no shutdown
+
+eng&hum(config)#int g0/0
+eng&hum(config-if)#ip address 10.128.6.195 255.255.255.192
+eng&hum(config-if)#no shutdown
+
+economics(config)#int g0/0
+economics(config-if)#ip address 10.128.4.1 255.255.255.0
+economics(config-if)#no shutdown
+
+DHCP Relay:
+eng&hum(config)#int g0/0
+eng&hum(config-if)#ip helper-address 10.128.4.2
+
+bsrm(config)#int g0/0
+bsrm(config-if)#ip helper-address 10.128.4.2
+
+economics(config)#int g0/0
+economics(config-if)#ip helper-address 10.128.4.2
+
+cse(config)#int g0/0
+cse(config-if)#ip helper-address 10.128.4.2
+
+Static Routing:
+(Using Directly Attached)
+Law(config)#ip route 10.128.6.0 255.255.255.128 Serial0/0/1 
+Law(config)#ip route 10.128.7.20 255.255.255.252 Serial0/0/1 
+Law(config)#ip route 10.128.7.12 255.255.255.252 Serial0/0/0 
+Law(config)#ip route 10.128.7.4 255.255.255.252 Serial0/0/0 
+Law(config)#ip route 10.128.7.0 255.255.255.252 Serial0/0/0 
+Law(config)#ip route 10.128.4.0 255.255.255.252 Serial0/1/1 
+Law(config)#ip route 10.128.6.192 255.255.255.192 Serial0/0/0 
+Law(config)#ip route 10.128.5.0 255.255.255.0 Serial0/0/0 
+Law(config)#ip route 10.128.0.0 255.255.252.0 Serial0/0/0 
+Law(config)#ip route 10.128.6.0 255.255.255.128 Serial0/0/0 5
+Law(config)#ip route 10.128.4.0 255.255.255.0 Serial0/0/0
+
+
+architecture(config)#ip route 10.128.7.16 255.255.255.252 Serial0/1/0 
+architecture(config)#ip route 10.128.7.12 255.255.255.252 Serial0/1/0 
+architecture(config)#ip route 10.128.7.8 255.255.255.252 Serial0/0/1 
+architecture(config)#ip route 10.128.7.4 255.255.255.252 Serial0/0/1 
+architecture(config)#ip route 10.128.7.0 255.255.255.252 Serial0/0/1 
+architecture(config)#ip route 10.128.4.0 255.255.255.0 Serial0/1/0 
+architecture(config)#ip route 10.128.6.192 255.255.255.192 Serial0/0/1 
+architecture(config)#ip route 10.128.5.0 255.255.255.0 Serial0/0/1 
+architecture(config)#ip route 10.128.0.0 255.255.252.0 Serial0/0/1 
+architecture(config)#ip route 10.128.6.128 255.255.255.192 Serial0/0/1 
+architecture(config)#ip route 10.128.6.128 255.255.255.192 Serial0/1/0 5
+
+eng&hum(config)#ip route 10.128.7.24 255.255.255.252 Serial0/0/1 
+eng&hum(config)#ip route 10.128.7.16 255.255.255.252 Serial0/0/1 
+eng&hum(config)#ip route 10.128.7.20 255.255.255.252 Serial0/0/0 
+eng&hum(config)#ip route 10.128.7.0 255.255.255.252 Serial0/1/0 
+eng&hum(config)#ip route 10.128.4.0 255.255.255.0 Serial0/0/0 
+eng&hum(config)#ip route 10.128.6.128 255.255.255.192 Serial0/0/1 
+eng&hum(config)#ip route 10.128.0.0 255.255.252.0 Serial0/1/0 
+eng&hum(config)#ip route 10.128.5.0 255.255.255.0 Serial0/1/0 
+eng&hum(config)#ip route 10.128.6.0 255.255.255.128 Serial0/0/0
+
+bsrm(config)#ip route 10.128.7.24 255.255.255.252 Serial0/1/1 
+bsrm(config)#ip route 10.128.7.20 255.255.255.252 Serial0/1/1 
+bsrm(config)#ip route 10.128.7.16 255.255.255.252 Serial0/1/1 
+bsrm(config)#ip route 10.128.7.12 255.255.255.252 Serial0/1/1 
+bsrm(config)#ip route 10.128.7.8 255.255.255.252 Serial0/1/1 
+bsrm(config)#ip route 10.128.4.0 255.255.255.0 Serial0/1/1 
+bsrm(config)#ip route 10.128.6.0 255.255.255.128 Serial0/1/1 
+bsrm(config)#ip route 10.128.6.128 255.255.255.192 Serial0/1/1 
+bsrm(config)#ip route 10.128.6.192 255.255.255.192 Serial0/1/1 
+bsrm(config)#ip route 10.128.0.0 255.255.252.0 Serial0/0/0
+
+Dynamic Routing:
+cse(config)#router rip
+cse(config-router)#version 2
+cse(config-router)#network 10.128.0.0
+cse(config-router)#network 10.128.7.0
+cse(config-router)#no auto-summary
+cse(config-router)#passive-interface  g0/0
+
+economics(config)#router rip
+economics(config-router)#version 2
+economics(config-router)#network 10.128.4.0
+economics(config-router)#network 10.128.7.20
+economics(config-router)#network 10.128.7.16
+economics(config-router)#network 10.128.7.12
+economics(config-router)#no auto-summary
+economics(config-router)#passive-interface g0/0
+
+Redistribution
+eng&hum(config)#router rip
+eng&hum(config-if)#version 2
+eng&hum(config-if)#redistribute static
+eng&hum(config-if)#network 10.128.7.12
+
+architecture(config)#router rip
+architecture(config)#version 2
+architecture(config)#redistribute static
+architecture(config)#network 10.128.7.20
+
+bsrm(config)#router rip
+bsrm(config-if)#version 2
+bsrm(config-if)#redistribute static
+bsrm(config-if)#network 10.128.7.0
+
+
+
+
+
+
+
+
